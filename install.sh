@@ -243,6 +243,7 @@ if [ "$update" = true ];
 termux-setup-storage
 pkg update 
 pkg upgrade -y
+pkg install -y python
 pkg install -y tur-repo x11-repo
 pkg install -y pulseaudio termux-x11-nightly proot-distro wget
 pkg install -y \
