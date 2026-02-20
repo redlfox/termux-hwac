@@ -22,7 +22,7 @@ fi
 
 echo "Configuring prefix..."
 cd $SCRIPT_DIR
-./wine_tweaks.sh hangover
+bash ./wine_tweaks.sh hangover
 
 if [ ! -d "dxvk-gplasync-v$version" ]; then
     mkdir -p $PREFIX/glibc/dxvk
@@ -65,7 +65,7 @@ gio trash dxvk-gplasync-v$version.tar.gz
 
 cd $sp
 if [ -f "./support.sh" ]; then
-    ./support.sh
+    bash ./support.sh
 else
     echo ":("
     exit 1

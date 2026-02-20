@@ -236,7 +236,7 @@ done
 if [ "$update" = true ];
   then
     cd $dir
-    ./update.sh
+    bash ./update.sh
     exit 1 
   fi
 
@@ -268,13 +268,14 @@ pkg install -y \
 pkg install -y pulseaudio-glibc libx*-*glibc*
 pkg install -y libgmp-glibc
 pkg install -y fex
-pkg install -y mesa-zink-dev virglrenderer-mesa-zink* virgl_test_server* freetype gnutls \
+pkg install -y mesa-zink-dev virglrenderer-mesa-zink* freetype gnutls \
     libandroid-shmem-static libx11 xorgproto libdrm libpixman libxfixes \
     libjpeg-turbo mesa-demos osmesa pulseaudio termux-x11-nightly vulkan-tools \
     xtrans libxxf86vm xorg-xrandr xorg-font-util xorg-util-macros libxfont2 \
     libxkbfile libpciaccess xcb-util-renderutil xcb-util-image xcb-util-keysyms \
     xcb-util-wm xorg-xkbcomp xkeyboard-config libxdamage libxinerama libxshmfence
 pkg install -y virglrenderer-mesa-zink box64-glibc vulkan-volk-glibc
+pkg install virglrenderer-android
 pip install psutil
 
 termux-setup-storage
@@ -297,16 +298,16 @@ if [ $termux_hangover = true ] ; then
 
   cp hangover $PREFIX/bin
   cd $HOME
-  wget https://github.com/alexvorxx/hangover-termux/releases/download/9.22/wine_hangover_9.22_bionic_build_patched.tar.xz
-  wget https://github.com/alexvorxx/hangover-termux/releases/download/9.5/box64cpu_hangover9.5.zip
-  tar -xvf wine_hangover_9.22_bionic_build_patched.tar.xz
-  unzip -o box64cpu_hangover9.5.zip -d wine_hangover/arm64-v8a/lib/wine/aarch64-windows
-  gio trash hangover_9.5_bionic_box64upd_termux_5patches.tar.xz
-  gio trash box64cpu_hangover9.5.zip
+  # wget https://github.com/alexvorxx/hangover-termux/releases/download/9.22/wine_hangover_9.22_bionic_build_patched.tar.xz
+  # wget https://github.com/alexvorxx/hangover-termux/releases/download/9.5/box64cpu_hangover9.5.zip
+  # tar -xvf wine_hangover_9.22_bionic_build_patched.tar.xz
+  # unzip -o box64cpu_hangover9.5.zip -d wine_hangover/arm64-v8a/lib/wine/aarch64-windows
+  # gio trash hangover_9.5_bionic_box64upd_termux_5patches.tar.xz
+  # gio trash box64cpu_hangover9.5.zip
 
   cd $dir
   hangover-wine boot
-  WINEPREFIX=$HOME/.wine ./dxvk_in.sh
+  WINEPREFIX=$HOME/.wine bash ./dxvk_in.sh
 
   sed -i '/^exec/i \
   if [ -z "$WINEPREFIX" ]; then\
@@ -335,7 +336,7 @@ fi
 
 if [ $winepad_in = true ] ; then
     cd $dir
-    ./winepad_in.sh
+    bash ./winepad_in.sh
 fi
 
 if [ bootx = true ] ; then
@@ -370,12 +371,12 @@ echo "alias kys='killall -u $(whoami)'" >> ~/.bashrc
 echo "alias winepad='python $dir/tools/connect_gamepad.py'" >> ~/.bashrc
 source ~/.bashrc
 bine boot
-./dxvk_in.sh || true
-./wine_tweaks.sh hangover
-./wine_tweaks.sh bine
+bash ./dxvk_in.sh || true
+bash ./wine_tweaks.sh hangover
+bash ./wine_tweaks.sh bine
 termux-reload-settings
 sleep 1
 
-tput setaf 13; ./support.sh tput setaf 0;
+tput setaf 13; bash ./support.sh tput setaf 0;
 tput setaf 7;
 echo "Type '$(tput setaf 14)termux11' to enter xfce session."
