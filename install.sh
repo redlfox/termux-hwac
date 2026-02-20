@@ -236,7 +236,7 @@ done
 if [ "$update" = true ];
   then
     cd $dir
-    bash ./update.sh
+    ./update.sh
     exit 1 
   fi
 
@@ -298,16 +298,16 @@ if [ $termux_hangover = true ] ; then
 
   cp hangover $PREFIX/bin
   cd $HOME
-  # wget https://github.com/alexvorxx/hangover-termux/releases/download/9.22/wine_hangover_9.22_bionic_build_patched.tar.xz
-  # wget https://github.com/alexvorxx/hangover-termux/releases/download/9.5/box64cpu_hangover9.5.zip
-  # tar -xvf wine_hangover_9.22_bionic_build_patched.tar.xz
-  # unzip -o box64cpu_hangover9.5.zip -d wine_hangover/arm64-v8a/lib/wine/aarch64-windows
-  # gio trash hangover_9.5_bionic_box64upd_termux_5patches.tar.xz
-  # gio trash box64cpu_hangover9.5.zip
+  wget https://github.com/alexvorxx/hangover-termux/releases/download/9.22/wine_hangover_9.22_bionic_build_patched.tar.xz
+  wget https://github.com/alexvorxx/hangover-termux/releases/download/9.5/box64cpu_hangover9.5.zip
+  tar -xvf wine_hangover_9.22_bionic_build_patched.tar.xz
+  unzip -o box64cpu_hangover9.5.zip -d wine_hangover/arm64-v8a/lib/wine/aarch64-windows
+  gio trash hangover_9.5_bionic_box64upd_termux_5patches.tar.xz
+  gio trash box64cpu_hangover9.5.zip
 
   cd $dir
   hangover-wine boot
-  WINEPREFIX=$HOME/.wine bash ./dxvk_in.sh
+  WINEPREFIX=$HOME/.wine ./dxvk_in.sh
 
   sed -i '/^exec/i \
   if [ -z "$WINEPREFIX" ]; then\
@@ -336,7 +336,7 @@ fi
 
 if [ $winepad_in = true ] ; then
     cd $dir
-    bash ./winepad_in.sh
+    ./winepad_in.sh
 fi
 
 if [ bootx = true ] ; then
@@ -355,6 +355,8 @@ cd $dir
 chmod +x bine.sh
 chmod +x dxvk_in.sh
 chmod +x wine_in.sh
+chmod +x wine_tweaks.sh
+chmod +x support.sh
 cp bine.sh $PREFIX/glibc/bin/bine
 ln -s $PREFIX/glibc/bin/bine $PREFIX/bin || true
 launcher || true
@@ -371,12 +373,12 @@ echo "alias kys='killall -u $(whoami)'" >> ~/.bashrc
 echo "alias winepad='python $dir/tools/connect_gamepad.py'" >> ~/.bashrc
 source ~/.bashrc
 bine boot
-bash ./dxvk_in.sh || true
-bash ./wine_tweaks.sh hangover
-bash ./wine_tweaks.sh bine
+./dxvk_in.sh || true
+./wine_tweaks.sh hangover
+./wine_tweaks.sh bine
 termux-reload-settings
 sleep 1
 
-tput setaf 13; bash ./support.sh tput setaf 0;
+tput setaf 13; ./support.sh tput setaf 0;
 tput setaf 7;
 echo "Type '$(tput setaf 14)termux11' to enter xfce session."
